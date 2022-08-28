@@ -94,9 +94,6 @@ cc_library(
         ":portaudio-common",
         ":portaudio-windows",
     ],
-    linkopts = [
-        '-DEFAULTLIB:dsound3d.lib',
-    ],
     visibility = ["//visibility:public"],
 )
 
