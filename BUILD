@@ -19,32 +19,6 @@ cc_library(
 
 
 cc_library(
-    name = "portaudio-wasapi",
-    srcs = glob([
-        "src/hostapi/wasapi/*.c",
-    ]),
-    hdrs = glob([
-        "include/pa_win_wasapi.h",
-        "src/hostapi/wasapi/mingw-include/*.h",
-    ]),
-    includes = [
-        "src/hostapi/wasapi/mingw-include",
-    ],
-    defines = [
-        "PA_USE_WASAPI=1",
-    ],
-    deps = [
-        ":portaudio-common",
-    ],
-    linkopts = [
-        '-DEFAULTLIB:ole32.lib',
-        '-DEFAULTLIB:winmm.lib',
-    ],
-    visibility = ["//visibility:public"],
-)
-
-
-cc_library(
     name = "portaudio-windows",
     srcs = glob([
         "src/os/win/*.c",
@@ -57,6 +31,44 @@ cc_library(
     ],
     deps = [
         ":portaudio-common",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+
+cc_library(
+    name = "portaudio-wasapi",
+    srcs = glob([
+        "src/hostapi/wasapi/pa_win_wasapi.c",
+    ]),
+    hdrs = glob([
+        "include/pa_win_wasapi.h",
+    ]),
+    includes = [
+    ],
+    defines = [
+        "PA_USE_WASAPI=1",
+    ],
+    deps = [
+        ":portaudio-common",
+        ":portaudio-windows",
+    ],
+    linkopts = [
+        '-DEFAULTLIB:kernel32.lib',
+        '-DEFAULTLIB:user32.lib',
+        '-DEFAULTLIB:gdi32.lib',
+        '-DEFAULTLIB:winspool.lib',
+        '-DEFAULTLIB:comdlg32.lib',
+        '-DEFAULTLIB:advapi32.lib',
+        '-DEFAULTLIB:shell32.lib',
+        '-DEFAULTLIB:ole32.lib',
+        '-DEFAULTLIB:oleaut32.lib',
+        '-DEFAULTLIB:uuid.lib',
+        '-DEFAULTLIB:odbc32.lib',
+        '-DEFAULTLIB:odbccp32.lib',
+        '-DEFAULTLIB:winmm.lib',
+        '-DEFAULTLIB:setupapi.lib',
+        '-DEFAULTLIB:ksuser.lib',
     ],
     visibility = ["//visibility:public"],
 )
@@ -91,8 +103,8 @@ cc_library(
 
 cc_library(
     name = "portaudio",
-    deps = [ # TODO: add select based on platform
-        ":portaudio-directsound",
+    deps = [
+        ":portaudio-wasapi",
     ],
     visibility = ["//visibility:public"],
 )

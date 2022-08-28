@@ -1,5 +1,11 @@
 # PortAudio - portable audio I/O library
 
+## Bazel + Windows
+
+Set `BAZEL_WINSDK_FULL_VERSION=10.0.10240.0`.
+
+> https://bazel.build/configure/windows
+
 PortAudio is a portable audio I/O library designed for cross-platform
 support of audio. It uses either a callback mechanism to request audio 
 processing, or blocking read/write calls to buffer data between the 
