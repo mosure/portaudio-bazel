@@ -1,4 +1,4 @@
-load('@rules_cc//cc:defs.bzl', 'cc_library')
+load('@rules_cc//cc:defs.bzl', 'cc_binary', 'cc_library')
 
 
 cc_library(
@@ -29,6 +29,9 @@ cc_library(
     includes = [
         "src/os/win",
     ],
+    defines = [
+        "PA_USE_WASAPI=1",
+    ],
     deps = [
         ":portaudio-common",
     ],
@@ -44,8 +47,6 @@ cc_library(
     hdrs = glob([
         "include/pa_win_wasapi.h",
     ]),
-    includes = [
-    ],
     defines = [
         "PA_USE_WASAPI=1",
     ],
@@ -105,3 +106,16 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
 )
+
+
+cc_binary(
+    name = "pa_devs",
+    srcs = [
+        "examples/pa_devs.c",
+    ],
+    deps = [
+        ":portaudio",
+    ],
+    visibility = ["//visibility:public"],
+)
+
